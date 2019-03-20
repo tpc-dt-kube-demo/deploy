@@ -15,19 +15,43 @@ pipeline {
   agent {
     label 'maven'
   }
+  parameters {
+    choice(name: 'VERSION', choices: ['good', 'bad'], description: 'version to deploy')
+  }
   stages {
     stage('Deploy') {
       steps {
-        // push event using Jenkins plugin
-        // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
-        createDynatraceDeploymentEvent(
-          envId: 'Dynatrace Tenant', 
-          tagMatchRules: tagMatchRules) {
-            checkout scm
-            container('kubectl') {
-              sh "kubectl apply -f production.yml"
+        script{
+          if (params.VERSION == 'good')
+          {
+            echo "Deploying GOOD version..."
+
+            // push event using Jenkins plugin
+            // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
+            createDynatraceDeploymentEvent(
+              envId: 'Dynatrace Tenant', 
+              tagMatchRules: tagMatchRules) {
+                checkout scm
+                container('kubectl') {
+                  sh "kubectl apply -f production.yml"
+                }
             }
-        }
+          }
+          else
+          {
+            echo "Deploying BAD version..."
+
+            // push event using Jenkins plugin
+            // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
+            createDynatraceDeploymentEvent(
+              envId: 'Dynatrace Tenant', 
+              tagMatchRules: tagMatchRules) {
+                checkout scm
+                container('kubectl') {
+                  sh "kubectl apply -f production.yml"
+                }
+            }
+          }
       }
     }
 
