@@ -16,15 +16,15 @@ pipeline {
     label 'maven'
   }
   parameters {
-    choice(name: 'VERSION', choices: ['good', 'bad'], description: 'version to deploy')
+    string  (name: 'version', defaultValue: 'good', description: 'pass in value bad to deploy bad version')
   }
   stages {
     stage('Deploy') {
       steps {
         script {
-          if (params.VERSION == 'good')
+          if (params.version == 'bad')
           {
-            echo "Deploying GOOD version..."
+            echo "Deploying BAD version..."
 
             // push event using Jenkins plugin
             // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
@@ -39,7 +39,7 @@ pipeline {
           }
           else
           {
-            echo "Deploying BAD version..."
+            echo "Deploying GOOD version..."
 
             // push event using Jenkins plugin
             // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
