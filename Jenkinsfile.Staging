@@ -1,0 +1,104 @@
+@Library('dynatrace@master') _
+
+def tagMatchRules = [
+  [
+    meTypes: [
+      [meType: 'SERVICE']
+    ],
+    tags : [
+      [ context: 'CONTEXTLESS', key: 'environment', value: 'staging' ]
+    ]
+  ]
+]
+
+pipeline {
+  agent {
+    label 'maven'
+  }
+  stages {
+    stage('Deploy') {
+      steps {
+        // push event using Jenkins plugin
+        // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
+        createDynatraceDeploymentEvent(
+          envId: 'Dynatrace Tenant', 
+          tagMatchRules: tagMatchRules) {
+            checkout scm
+            container('kubectl') {
+              sh "kubectl apply -f staging.yml"
+            }
+        }
+      }
+    }
+
+    stage('Health Check') {
+      steps {
+        container('curl') {
+          echo "Waiting for the service to start..."
+          sleep 20
+          echo "Execute a couple of CURL commands to verify UI is up..."
+          executeCurl(2, "http://front-end.staging")
+        }
+      }
+    }
+
+    stage('Run e2e load test') {
+
+      steps {
+        // push custom info event with context information using Jenkins plugin
+        // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
+        recordDynatraceSession (
+          envId: 'Dynatrace Tenant',
+          testCase: 'loadtest',
+          tagMatchRules: tagMatchRules
+        )
+
+        {
+            // calls script imported into Jenkins from this library
+            // https://github.com/dynatrace-innovationlab/jenkins-extensions
+          container('jmeter') {
+            // need to remove report folder from workspace else jmeter errors
+            sh "rm -rf e2eCheck"
+            // remove logs from workspace
+            sh "rm -f e2eCheck_result.tlf"
+            sh "rm -f output.txt"
+
+            script {
+              def status = executeJMeter ( 
+                scriptName: "jmeter/front-end_e2e_load.jmx",
+                resultsDir: "e2eCheck",
+                serverUrl: "front-end.staging", 
+                serverPort: 80,
+                checkPath: '/',
+                vuCount: 10,
+                loopCount: 300,
+                LTN: "e2eCheck_${env.BUILD_ID}",
+                funcValidation: false,
+                avgRtValidation: 4000
+              )
+              if (status != 0) {
+                currentBuild.result = 'FAILED'
+                error "e2e load test failed."
+              }
+            }
+          }
+        }
+
+        // evaluate monspec file as a quality gate using Jenkins plugin
+        // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
+        perfSigDynatraceReports(
+          envId: 'Dynatrace Tenant', 
+          nonFunctionalFailure: 1, 
+          specFile: "monspec/e2e_perfsig.json"
+        )
+      }
+    }
+  }
+}
+
+def executeCurl(iterations, url) {
+    for (int i = 0; i < iterations; i++) {
+        sh "echo calling ${url}"
+        sh "curl ${url} -f"
+    }
+}
