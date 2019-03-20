@@ -22,6 +22,7 @@ pipeline {
     stage('Deploy') {
       steps {
         script {
+          echo "params.version = {$params.version}"
           if (params.version == 'bad')
           {
             echo "Deploying BAD version..."
