@@ -49,7 +49,7 @@ pipeline {
               tagMatchRules: tagMatchRules) {
                 checkout scm
                 container('kubectl') {
-                  sh "kubectl apply -f production.yml"
+                  sh "kubectl apply -f production-good.yml"
                 }
             }
           }
