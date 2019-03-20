@@ -19,7 +19,7 @@ spec:
         run: front-end
     spec:
       containers:
-      - image: robjahn/front-end-service:1
+      - image: robjahn/front-end:1
         name: front-end
         ports:
         - containerPort: 80
