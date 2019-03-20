@@ -21,7 +21,7 @@ pipeline {
   stages {
     stage('Deploy') {
       steps {
-        script{
+        script {
           if (params.VERSION == 'good')
           {
             echo "Deploying GOOD version..."
@@ -52,6 +52,7 @@ pipeline {
                 }
             }
           }
+        }
       }
     }
 
