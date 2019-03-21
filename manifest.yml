@@ -1,0 +1,201 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: front-end
+  name: front-end
+  namespace: REPLACE_NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: front-end
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: front-end
+    spec:
+      containers:
+      - image: REPLACE_FRONT-END-IMAGE-NAME
+        name: front-end
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
+
+---
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: catalog
+  name: catalog
+  namespace: REPLACE_NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: catalog
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: catalog
+    spec:
+      containers:
+      - image: REPLACE_CATALOG-SERVICE-IMAGE-NAME
+        name: catalog
+        ports:
+        - containerPort: 8080
+        resources: {}
+status: {}
+
+---
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: customer
+  name: customer
+  namespace: REPLACE_NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: customer
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: customer
+    spec:
+      containers:
+      - image: REPLACE_CUSTOMER-SERVICE-IMAGE-NAME
+        name: customer
+        ports:
+        - containerPort: 8080
+        resources: {}
+status: {}
+
+---
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: order
+  name: order
+  namespace: REPLACE_NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: order
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: order
+    spec:
+      containers:
+      - image: REPLACE_ORDER-SERVICE-IMAGE-NAME
+        name: order
+        ports:
+        - containerPort: 8080
+        resources: {}
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: front-end
+  name: front-end
+  namespace: REPLACE_NAMESPACE
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    run: front-end
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: catalog
+  name: catalog
+  namespace: REPLACE_NAMESPACE
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: catalog
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: customer
+  name: customer
+  namespace: REPLACE_NAMESPACE
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: customer
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: order
+  name: order
+  namespace: REPLACE_NAMESPACE
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: order
+  type: LoadBalancer
+status:
+  loadBalancer: {}

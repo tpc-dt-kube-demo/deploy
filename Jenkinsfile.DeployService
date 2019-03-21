@@ -1,0 +1,77 @@
+@Library('dynatrace@master') _
+
+pipeline {
+  agent {
+    label 'maven'
+  }  
+  parameters {
+    choice(name: 'namespace', choices: ['staging', 'production'], description: 'where to deploy')
+    choice(name: 'service', choices: ['front-end', 'order-service', 'customer-service', 'catalog-service'], description: 'what service to deploy')
+    string(name: 'version', defaultValue: '1', description: 'what version to deploy')
+    string(name: 'registry', defaultValue: 'robjahn', description: 'Dockhub account')
+  }
+
+  stages {
+    stage("deploy") { 
+      environment {
+        image = "${params.registry}/${params.service}:${params.version}"
+      }
+      steps {
+        container('kubectl') {
+          echo "============================================="
+          echo "Deployment configuration"
+          echo "namespace     : ${params.namespace}"
+          echo "service       : ${params.service}"
+          echo "version       : ${params.version}"
+          echo "registry      : ${params.registry}"
+          echo "image         : ${env.image}"
+          echo "============================================="
+          checkout scm
+
+          sh "sed -i 's/REPLACE_NAMESPACE/${env.image}/g' manifest.yml}"
+          switch(params.service) {
+            case "front-end":
+              sh "sed -i 's/REPLACE_FRONT-END-IMAGE-NAME/${env.image}/g' manifest.yml"
+              break
+            case "order-service":
+              sh "sed -i 's/REPLACE_ORDER-SERVICE-IMAGE-NAME/${env.image}/g' manifest.yml"
+              break
+            case "customer-service":
+              sh "sed -i 's/REPLACE_CUSTOMER-SERVICE-IMAGE-NAME/${env.image}/g' manifest.yml"
+              break
+            case "catalog-service":
+              sh "sed -i 's/REPLACE_CATALOG-SERVICE-IMAGE-NAME/${env.image}/g' manifest.yml"
+              break
+          }
+          sh "cat manifest.yml"
+
+          echo "kubectl apply"
+          sh "kubectl -n ${params.namespace} apply -f manifest.yml"
+
+          echo "Wait for service to start"
+          sleep 10
+
+          echo "get my pod details"
+          sh "kubectl get pods -l app=${params.service} -n ${params.namespace}"
+        }
+
+        container('curl') {
+          echo "execute a couple of CURL commands"
+          if ( params.service == "front-end") {
+            executeCurl(2, "http://${params.service}.${params.namespace}:80")
+          }
+          else {
+            executeCurl(2, "http://${params.service}.${params.namespace}:8080")
+          }
+        }
+      }
+    }
+  }
+}
+
+def executeCurl(iterations, url) {
+    for (int i = 0; i < iterations; i++) {
+        sh "echo calling ${url}"
+        sh "curl ${url} -f"
+    }
+}
