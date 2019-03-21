@@ -28,27 +28,27 @@ pipeline {
           echo "============================================="
           checkout scm
           
-          sh "sed -i 's/REPLACE_NAMESPACE/${env.namespace}/g' manifest.yml"
+          sh "sed -i 's/REPLACE_NAMESPACE/${env.namespace}/g' ${params.service}.yml"
           script {
             switch(params.service) {
               case "front-end":
-                sh "sed -i 's#REPLACE_FRONT-END-IMAGE-NAME#${env.image}#g' manifest.yml"
+                sh "sed -i 's#REPLACE_FRONT-END-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
                 break
               case "order-service":
-                sh "sed -i 's#REPLACE_ORDER-SERVICE-IMAGE-NAME#${env.image}#g' manifest.yml"
+                sh "sed -i 's#REPLACE_ORDER-SERVICE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
                 break
               case "customer-service":
-                sh "sed -i 's#REPLACE_CUSTOMER-SERVICE-IMAGE-NAME#${env.image}#g' manifest.yml"
+                sh "sed -i 's#REPLACE_CUSTOMER-SERVICE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
                 break
               case "catalog-service":
-                sh "sed -i 's#REPLACE_CATALOG-SERVICE-IMAGE-NAME#${env.image}#g' manifest.yml"
+                sh "sed -i 's#REPLACE_CATALOG-SERVICE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
                 break
             }
           }
-          sh "cat manifest.yml"
+          sh "cat ${params.service}.yml"
 
           echo "kubectl apply"
-          sh "kubectl -n ${params.namespace} apply -f manifest.yml"
+          sh "kubectl -n ${params.namespace} apply -f ${params.service}.yml"
 
           echo "Wait for service to start"
           sleep 10
