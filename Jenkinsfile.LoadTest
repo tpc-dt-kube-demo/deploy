@@ -1,44 +1,35 @@
 @Library('dynatrace@master') _
 
-def tagMatchRules = [
-  [
-    meTypes: [
-      [meType: 'SERVICE']
-    ],
-    tags : [
-      [ context: 'CONTEXTLESS', key: 'environment', value: 'production' ]
-    ]
-  ]
-]
-
 pipeline {
   agent {
     label 'git'
   }
+  parameters {
+    choice(name: 'namespace', choices: ['staging', 'production'], description: 'where to test')
+  }
   stages {
-    
     stage('Health Check') {
       steps {
         container('curl') {
           echo "Waiting for the service to start..."
           sleep 20
           echo "Execute a couple of CURL commands to verify UI is up..."
-          executeCurl(2, "http://front-end.production")
+          executeCurl(2, "http://front-end.${params.namespace}")
         }
       }
     }
-
     stage('Run e2e load test') {
-
+      environment {
+        tagMatchRules = "[[ meTypes: [[meType: 'SERVICE']],tags : [[ context: 'CONTEXTLESS', key: 'environment', value: '${params.namespace}' ]]]]"
+      }
       steps {
         // push custom info event with context information using Jenkins plugin
         // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
         recordDynatraceSession (
           envId: 'Dynatrace Tenant',
           testCase: 'loadtest',
-          tagMatchRules: tagMatchRules
+          tagMatchRules: ${env.tagMatchRules}
         )
-
         {
             // calls script imported into Jenkins from this library
             // https://github.com/dynatrace-innovationlab/jenkins-extensions
@@ -53,7 +44,7 @@ pipeline {
               def status = executeJMeter ( 
                 scriptName: "jmeter/front-end_e2e_load.jmx",
                 resultsDir: "e2eCheck",
-                serverUrl: "front-end.production", 
+                serverUrl: "front-end.${params.namespace}", 
                 serverPort: 80,
                 checkPath: '/',
                 vuCount: 5,
