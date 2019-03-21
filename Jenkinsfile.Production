@@ -29,8 +29,6 @@ pipeline {
         orderserviceimage = "${params.registry}/order-service:${params.orderserviceversion}"
         customerserviceimage = "${params.registry}/customer-service:${params.customerserviceversion}"
         catalogserviceimage = "${params.registry}/catalog-service:${params.catalogserviceversion}"
-
-        kubeservice = sh(script: "echo ${service} | cut -d'-' -f1" , returnStdout: true).trim()
       }
       steps {
         script {
@@ -80,6 +78,7 @@ pipeline {
         container('curl') {
           echo "Waiting for the service to start..."
           sleep 20
+          sh "kubectl get pods -n ${params.namespace}"
           echo "Execute a couple of CURL commands to verify UI is up..."
           executeCurl(2, "http://front-end.production")
         }
