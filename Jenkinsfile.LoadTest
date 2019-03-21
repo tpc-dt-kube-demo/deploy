@@ -40,7 +40,26 @@ pipeline {
     }
     stage('Run e2e load test') {
       steps {
-        script
+        script {
+          if ( ${params.namespace} == "staging" ) {
+            echo "Staging :push custom info event with context information using Jenkins plugin"
+            // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
+            recordDynatraceSession (
+              envId: 'Dynatrace Tenant',
+              testCase: 'loadtest',
+              tagMatchRules: stagingTagMatchRules
+            )
+          }
+          if ( ${params.namespace} == "production" ) {
+            echo "Production :push custom info event with context information using Jenkins plugin"
+            // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
+            recordDynatraceSession (
+              envId: 'Dynatrace Tenant',
+              testCase: 'loadtest',
+              tagMatchRules: productionTagMatchRules
+            )            
+          }
+        }
         {
             // calls script imported into Jenkins from this library
             // https://github.com/dynatrace-innovationlab/jenkins-extensions
