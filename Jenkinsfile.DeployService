@@ -59,10 +59,10 @@ pipeline {
           echo "get my pod details"
           script {
             if ( params.service == "front-end") {
-              sh "kubectl get pods -l app=front-end -n ${params.namespace}"
+              sh "kubectl get pods -l run=front-end -n ${params.namespace}"
             }
             else {
-              sh "kubectl get pods -l app=${env.kubeservice} -n ${params.namespace}"
+              sh "kubectl get pods -l run=${env.kubeservice} -n ${params.namespace}"
             }
           }
         }
