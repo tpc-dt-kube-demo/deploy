@@ -1,5 +1,27 @@
 @Library('dynatrace@master') _
 
+def productionTagMatchRules = [
+  [
+    meTypes: [
+      [meType: 'SERVICE']
+    ],
+    tags : [
+      [ context: 'CONTEXTLESS', key: 'environment', value: 'production' ]
+    ]
+  ]
+]
+
+def stagingTagMatchRules = [
+  [
+    meTypes: [
+      [meType: 'SERVICE']
+    ],
+    tags : [
+      [ context: 'CONTEXTLESS', key: 'environment', value: 'staging' ]
+    ]
+  ]
+]
+
 pipeline {
   agent {
     label 'git'
@@ -19,16 +41,24 @@ pipeline {
     stage('Run e2e load test') {
       steps {
         script {
-          def tagMatchRules = [[ meTypes: [[meType: 'SERVICE']],tags : [[ context: 'CONTEXTLESS', key: 'environment', value: '${params.namespace}' ]]]]
-          echo "using tagMatchRules: ${tagMatchRules}"
-
-          // push custom info event with context information using Jenkins plugin
-          // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
-          recordDynatraceSession (
-            envId: 'Dynatrace Tenant',
-            testCase: 'loadtest',
-            tagMatchRules: ${tagMatchRules}
-          )
+          if ( ${params.namespace} == "staging" ) {
+            // push custom info event with context information using Jenkins plugin
+            // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
+            recordDynatraceSession (
+              envId: 'Dynatrace Tenant',
+              testCase: 'loadtest',
+              tagMatchRules: ${stagingTagMatchRules}
+            )
+          }
+          if ( ${params.namespace} == "production" ) {
+            // push custom info event with context information using Jenkins plugin
+            // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
+            recordDynatraceSession (
+              envId: 'Dynatrace Tenant',
+              testCase: 'loadtest',
+              tagMatchRules: ${productionTagMatchRules}
+            )            
+          }
         }
         {
             // calls script imported into Jenkins from this library
