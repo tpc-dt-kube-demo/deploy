@@ -55,13 +55,15 @@ pipeline {
           sh "sed -i 's#REPLACE-IMAGE-NAME#${env.catalogserviceimage}#g' catalog-service.yml"
 
           sh "cat front-end.yml"
+          sh "cat order-service.yml"
+          sh "cat customer-service.yml"
+          sh "cat catalog-service.yml"
 
           // push event using Jenkins plugin
           // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
           createDynatraceDeploymentEvent(
             envId: 'Dynatrace Tenant', 
             tagMatchRules: tagMatchRules) {
-              checkout scm
               container('kubectl') {
                 sh "kubectl apply -f front-end.yml"
                 sh "kubectl apply -f catalog-service.yml"
