@@ -13,7 +13,7 @@ def tagMatchRules = [
 
 pipeline {
   agent {
-    label 'maven'
+    label 'git'
   }
   stages {
     
