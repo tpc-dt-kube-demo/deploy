@@ -8,7 +8,7 @@ pipeline {
     choice(name: 'namespace', choices: ['staging', 'production'], description: 'where to deploy')
     choice(name: 'service', choices: ['front-end', 'order-service', 'customer-service', 'catalog-service'], description: 'what service to deploy')
     string(name: 'version', defaultValue: '1', description: 'what version to deploy')
-    string(name: 'registry', defaultValue: 'robjahn', description: 'Dockhub account')
+    string(name: 'registry', defaultValue: 'robjahn', description: 'Dockerhub account with Docker Images')
   }
 
   stages {
@@ -32,22 +32,7 @@ pipeline {
           checkout scm
           
           sh "sed -i 's/REPLACE_NAMESPACE/${env.namespace}/g' ${params.service}.yml"
-          script {
-            switch(params.service) {
-              case "front-end":
-                sh "sed -i 's#REPLACE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
-                break
-              case "order-service":
-                sh "sed -i 's#REPLACE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
-                break
-              case "customer-service":
-                sh "sed -i 's#REPLACE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
-                break
-              case "catalog-service":
-                sh "sed -i 's#REPLACE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
-                break
-            }
-          }
+          sh "sed -i 's#REPLACE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
           sh "cat ${params.service}.yml"
 
           echo "kubectl apply"

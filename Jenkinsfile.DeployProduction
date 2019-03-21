@@ -16,11 +16,11 @@ pipeline {
     label 'maven'
   }
   parameters {
-    string(name: 'registry',               defaultValue: 'robjahn', description: 'Dockhub account')        
     string(name: 'frontendversion',        defaultValue: '1', description: 'image tag when custom version option choosen')
     string(name: 'orderserviceversion',    defaultValue: '1', description: 'image tag when custom version option choosen')
     string(name: 'customerserviceversion', defaultValue: '1', description: 'image tag when custom version option choosen')
     string(name: 'catalogserviceversion',  defaultValue: '1', description: 'image tag when custom version option choosen')
+    string(name: 'registry',               defaultValue: 'robjahn', description: 'Dockerhub account with Docker Images')        
   }
   stages {
     stage('Deploy') {
