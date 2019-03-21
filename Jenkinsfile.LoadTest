@@ -11,10 +11,8 @@ pipeline {
     stage('Health Check') {
       steps {
         container('curl') {
-          echo "Waiting for the service to start..."
-          sleep 20
-          echo "Execute a couple of CURL commands to verify UI is up..."
-          executeCurl(2, "http://front-end.${params.namespace}")
+          echo "Execute CURL command to verify UI is up..."
+          executeCurl(1, "http://front-end.${params.namespace}")
         }
       }
     }
@@ -22,6 +20,8 @@ pipeline {
       steps {
         script {
           def tagMatchRules = [[ meTypes: [[meType: 'SERVICE']],tags : [[ context: 'CONTEXTLESS', key: 'environment', value: '${params.namespace}' ]]]]
+          echo "using tagMatchRules: ${tagMatchRules}"
+
           // push custom info event with context information using Jenkins plugin
           // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
           recordDynatraceSession (
