@@ -74,6 +74,10 @@ pipeline {
 
     stage('Health Check') {
       steps {
+        container('kubectl') {
+          sleep 20
+          sh "kubectl get pods -n production"
+        }
         container('curl') {
           echo "Waiting for the service to start..."
           sleep 20
