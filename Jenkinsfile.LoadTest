@@ -27,7 +27,7 @@ pipeline {
           recordDynatraceSession (
             envId: 'Dynatrace Tenant',
             testCase: 'loadtest',
-            tagMatchRules: ${env.tagMatchRules}
+            tagMatchRules: ${tagMatchRules}
           )
         }
         {
