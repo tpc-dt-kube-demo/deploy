@@ -29,19 +29,21 @@ pipeline {
           checkout scm
 
           sh "sed -i 's/REPLACE_NAMESPACE/${env.image}/g' manifest.yml}"
-          switch(params.service) {
-            case "front-end":
-              sh "sed -i 's/REPLACE_FRONT-END-IMAGE-NAME/${env.image}/g' manifest.yml"
-              break
-            case "order-service":
-              sh "sed -i 's/REPLACE_ORDER-SERVICE-IMAGE-NAME/${env.image}/g' manifest.yml"
-              break
-            case "customer-service":
-              sh "sed -i 's/REPLACE_CUSTOMER-SERVICE-IMAGE-NAME/${env.image}/g' manifest.yml"
-              break
-            case "catalog-service":
-              sh "sed -i 's/REPLACE_CATALOG-SERVICE-IMAGE-NAME/${env.image}/g' manifest.yml"
-              break
+          script {
+            switch(params.service) {
+              case "front-end":
+                sh "sed -i 's/REPLACE_FRONT-END-IMAGE-NAME/${env.image}/g' manifest.yml"
+                break
+              case "order-service":
+                sh "sed -i 's/REPLACE_ORDER-SERVICE-IMAGE-NAME/${env.image}/g' manifest.yml"
+                break
+              case "customer-service":
+                sh "sed -i 's/REPLACE_CUSTOMER-SERVICE-IMAGE-NAME/${env.image}/g' manifest.yml"
+                break
+              case "catalog-service":
+                sh "sed -i 's/REPLACE_CATALOG-SERVICE-IMAGE-NAME/${env.image}/g' manifest.yml"
+                break
+            }
           }
           sh "cat manifest.yml"
 
@@ -56,12 +58,14 @@ pipeline {
         }
 
         container('curl') {
-          echo "execute a couple of CURL commands"
-          if ( params.service == "front-end") {
-            executeCurl(2, "http://${params.service}.${params.namespace}:80")
-          }
-          else {
-            executeCurl(2, "http://${params.service}.${params.namespace}:8080")
+          script {
+            echo "execute a couple of CURL commands"
+            if ( params.service == "front-end") {
+              executeCurl(2, "http://${params.service}.${params.namespace}:80")
+            }
+            else {
+              executeCurl(2, "http://${params.service}.${params.namespace}:8080")
+            }
           }
         }
       }
