@@ -27,7 +27,6 @@ pipeline {
               kubeservice = sh(script: "echo ${params.service} | cut -d'-' -f1 )" , returnStdout: true).trim()
             }
           }
-          echo 
           echo "============================================="
           echo "Deployment configuration"
           echo "namespace     : ${params.namespace}"
