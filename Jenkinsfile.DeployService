@@ -15,6 +15,7 @@ pipeline {
     stage("deploy") { 
       environment {
         image = "${params.registry}/${params.service}:${params.version}"
+        service = ${params.service}
         kubeservice = ""
       }
       steps {
@@ -24,7 +25,7 @@ pipeline {
               kubeservice = "front-end"
             }
             else {
-              kubeservice = sh(script: "echo ${params.service} | cut -d'-' -f1" , returnStdout: true).trim()
+              kubeservice = sh(script: "echo ${env.service} | cut -d'-' -f1" , returnStdout: true).trim()
             }
           }
           echo "============================================="
