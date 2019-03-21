@@ -15,7 +15,7 @@ pipeline {
     stage("deploy") { 
       environment {
         image = "${params.registry}/${params.service}:${params.version}"
-        service = ${params.service}
+        service = "${params.service}"
         kubeservice = ""
       }
       steps {
