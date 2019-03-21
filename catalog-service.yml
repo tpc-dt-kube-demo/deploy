@@ -19,7 +19,7 @@ spec:
         run: catalog
     spec:
       containers:
-      - image: REPLACE_CATALOG-SERVICE-IMAGE-NAME
+      - image: REPLACE-IMAGE-NAME
         name: catalog
         ports:
         - containerPort: 8080

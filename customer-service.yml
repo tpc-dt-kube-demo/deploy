@@ -19,7 +19,7 @@ spec:
         run: customer
     spec:
       containers:
-      - image: REPLACE_CUSTOMER-SERVICE-IMAGE-NAME
+      - image: REPLACE-IMAGE-NAME
         name: customer
         ports:
         - containerPort: 8080

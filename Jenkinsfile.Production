@@ -16,43 +16,58 @@ pipeline {
     label 'maven'
   }
   parameters {
-    string  (name: 'version', defaultValue: 'good', description: 'pass in value bad to deploy bad version')
+    string(name: 'registry',               defaultValue: 'robjahn', description: 'Dockhub account')        
+    string(name: 'frontendversion',        defaultValue: '1', description: 'image tag when custom version option choosen')
+    string(name: 'orderserviceversion',    defaultValue: '1', description: 'image tag when custom version option choosen')
+    string(name: 'customerserviceversion', defaultValue: '1', description: 'image tag when custom version option choosen')
+    string(name: 'catalogserviceversion',  defaultValue: '1', description: 'image tag when custom version option choosen')
   }
   stages {
     stage('Deploy') {
+      environment {
+        frontendimage = "${params.registry}/front-end:${params.frontendversion}"
+        orderserviceimage = "${params.registry}/order-service:${params.orderserviceversion}"
+        customerserviceimage = "${params.registry}/customer-service:${params.customerserviceversion}"
+        catalogserviceimage = "${params.registry}/catalog-service:${params.catalogserviceversion}"
+
+        kubeservice = sh(script: "echo ${service} | cut -d'-' -f1" , returnStdout: true).trim()
+      }
       steps {
         script {
-          echo "params.version = {$params.version}"
-          if (params.version == 'bad')
-          {
-            echo "Deploying BAD version..."
+          echo "============================================="
+          echo "Deployment configuration"
+          echo "version                : ${params.version}"
+          echo "registry               : ${params.registry}"
+          echo "frontendimage          : ${env.frontendimage}"
+          echo "orderserviceimage      : ${env.orderserviceimage}"
+          echo "customerserviceimage   : ${env.customerserviceimage}"
+          echo "catalogserviceimage    : ${env.catalogserviceimage}"
+          echo "============================================="
 
-            // push event using Jenkins plugin
-            // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
-            createDynatraceDeploymentEvent(
-              envId: 'Dynatrace Tenant', 
-              tagMatchRules: tagMatchRules) {
-                checkout scm
-                container('kubectl') {
-                  sh "kubectl apply -f production-bad.yml"
-                }
-            }
-          }
-          else
-          {
-            echo "Deploying GOOD version..."
+          sh "sed -i 's/REPLACE_NAMESPACE/production/g' front-end.yml"
+          sh "sed -i 's/REPLACE_NAMESPACE/production/g' order-service.yml"
+          sh "sed -i 's/REPLACE_NAMESPACE/production/g' customer-service.yml"
+          sh "sed -i 's/REPLACE_NAMESPACE/production/g' catalog-service.yml"
 
-            // push event using Jenkins plugin
-            // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
-            createDynatraceDeploymentEvent(
-              envId: 'Dynatrace Tenant', 
-              tagMatchRules: tagMatchRules) {
-                checkout scm
-                container('kubectl') {
-                  sh "kubectl apply -f production-good.yml"
-                }
+          sh "sed -i 's#REPLACE-IMAGE-NAME#${env.frontendimage}#g' front-end.yml"
+          sh "sed -i 's#REPLACE-IMAGE-NAME#${env.orderserviceimage}#g' order-service.yml"
+          sh "sed -i 's#REPLACE-IMAGE-NAME#${env.customerserviceimage}#g' customer-service.yml"
+          sh "sed -i 's#REPLACE-IMAGE-NAME#${env.catalogserviceimage}#g' catalog-service.yml"
+
+          // push event using Jenkins plugin
+          // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
+          createDynatraceDeploymentEvent(
+            envId: 'Dynatrace Tenant', 
+            tagMatchRules: tagMatchRules) {
+              checkout scm
+              container('kubectl') {
+                sh "kubectl apply -f front-end.yml"
+                sh "kubectl apply -f catalog-service.yml"
+                sh "kubectl apply -f customer-service.yml"
+                sh "kubectl apply -f order-service.yml"
+              }
             }
-          }
+          )
         }
       }
     }

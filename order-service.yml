@@ -19,7 +19,7 @@ spec:
         run: order
     spec:
       containers:
-      - image: REPLACE_ORDER-SERVICE-IMAGE-NAME
+      - image: REPLACE-IMAGE-NAME
         name: order
         ports:
         - containerPort: 8080

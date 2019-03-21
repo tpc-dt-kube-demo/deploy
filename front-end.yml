@@ -19,7 +19,7 @@ spec:
         run: front-end
     spec:
       containers:
-      - image: REPLACE_FRONT-END-IMAGE-NAME
+      - image: REPLACE-IMAGE-NAME
         name: front-end
         ports:
         - containerPort: 80

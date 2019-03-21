@@ -35,16 +35,16 @@ pipeline {
           script {
             switch(params.service) {
               case "front-end":
-                sh "sed -i 's#REPLACE_FRONT-END-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
+                sh "sed -i 's#REPLACE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
                 break
               case "order-service":
-                sh "sed -i 's#REPLACE_ORDER-SERVICE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
+                sh "sed -i 's#REPLACE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
                 break
               case "customer-service":
-                sh "sed -i 's#REPLACE_CUSTOMER-SERVICE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
+                sh "sed -i 's#REPLACE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
                 break
               case "catalog-service":
-                sh "sed -i 's#REPLACE_CATALOG-SERVICE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
+                sh "sed -i 's#REPLACE-IMAGE-NAME#${env.image}#g' ${params.service}.yml"
                 break
             }
           }
