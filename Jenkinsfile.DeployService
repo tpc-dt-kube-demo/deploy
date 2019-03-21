@@ -16,7 +16,6 @@ pipeline {
       environment {
         image = "${params.registry}/${params.service}:${params.version}"
         kubeservice = ""
-        }
       }
       steps {
         container('kubectl') {
