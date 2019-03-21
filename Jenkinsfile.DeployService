@@ -25,7 +25,7 @@ pipeline {
               kubeservice = "front-end"
             }
             else {
-              kubeservice = sh( params.service | cut -d"-" -f1 )
+              kubeservice = sh(script: "echo ${params.service} | cut -d'-' -f1 )" , returnStdout: true).trim()
             }
           }
           echo 
