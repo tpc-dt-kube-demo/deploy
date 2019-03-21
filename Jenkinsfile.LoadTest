@@ -47,7 +47,7 @@ pipeline {
             recordDynatraceSession (
               envId: 'Dynatrace Tenant',
               testCase: 'loadtest',
-              tagMatchRules: stagingTagMatchRules
+              tagMatchRules: ${env.stagingTagMatchRules}
             )
           }
           if ( ${params.namespace} == "production" ) {
@@ -56,7 +56,7 @@ pipeline {
             recordDynatraceSession (
               envId: 'Dynatrace Tenant',
               testCase: 'loadtest',
-              tagMatchRules: productionTagMatchRules
+              tagMatchRules: ${env.productionTagMatchRules}
             )            
           }
         }
