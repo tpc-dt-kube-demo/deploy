@@ -9,7 +9,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="SERVER_URL" elementType="Argument">
             <stringProp name="Argument.name">SERVER_URL</stringProp>
-            <stringProp name="Argument.value">${__P(SERVER_URL,abef0cb984b4d11e99d520a44c96ce25-1640843302.us-west-2.elb.amazonaws.com)}</stringProp>
+            <stringProp name="Argument.value">${__P(SERVER_URL,a33ebc3964b4511e99d520a44c96ce25-1050972691.us-west-2.elb.amazonaws.com/)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="DefaultThinkTime" elementType="Argument">
