@@ -20,7 +20,7 @@ pipeline {
       steps {
         container('kubectl') {
           script {
-            if ( ${params.service} == "front-end" ) {
+            if ( params.service == "front-end" ) {
               kubeservice = "front-end"
             }
             else {
@@ -34,7 +34,7 @@ pipeline {
           echo "version       : ${params.version}"
           echo "registry      : ${params.registry}"
           echo "image         : ${env.image}"
-          echo "kubeservice         : ${env.kubeservice}"
+          echo "kubeservice   : ${env.kubeservice}"
           echo "============================================="
           checkout scm
           
