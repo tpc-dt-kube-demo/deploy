@@ -28,7 +28,7 @@ pipeline {
           echo "============================================="
           checkout scm
           
-          sh "sed -i 's/REPLACE_NAMESPACE/${env.namespace}/g' manifest.yml}"
+          sh "sed -i 's/REPLACE_NAMESPACE/${env.namespace}/g' manifest.yml"
           script {
             switch(params.service) {
               case "front-end":
