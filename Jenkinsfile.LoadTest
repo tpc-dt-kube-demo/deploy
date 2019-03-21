@@ -19,8 +19,6 @@ pipeline {
       }
     }
     stage('Run e2e load test') {
-      environment {
-      }
       steps {
         script {
           def tagMatchRules = [[ meTypes: [[meType: 'SERVICE']],tags : [[ context: 'CONTEXTLESS', key: 'environment', value: '${params.namespace}' ]]]]
