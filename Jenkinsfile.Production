@@ -54,6 +54,8 @@ pipeline {
           sh "sed -i 's#REPLACE-IMAGE-NAME#${env.customerserviceimage}#g' customer-service.yml"
           sh "sed -i 's#REPLACE-IMAGE-NAME#${env.catalogserviceimage}#g' catalog-service.yml"
 
+          sh "cat front-end.yml"
+
           // push event using Jenkins plugin
           // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
           createDynatraceDeploymentEvent(
