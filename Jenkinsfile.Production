@@ -67,7 +67,6 @@ pipeline {
                 sh "kubectl apply -f order-service.yml"
               }
             }
-          )
         }
       }
     }
