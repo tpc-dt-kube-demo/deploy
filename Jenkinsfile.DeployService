@@ -19,7 +19,7 @@ pipeline {
           kube_service = "front-end"
         }
         else {
-          kube_service = sh (echo ${params.service} | cut -d"-" -f1)
+          kube_service = sh (echo "${params.service}" | cut -d"-" -f1)
         }
       }
       steps {
