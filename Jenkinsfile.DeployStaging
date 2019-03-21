@@ -61,7 +61,6 @@ pipeline {
           createDynatraceDeploymentEvent(
             envId: 'Dynatrace Tenant', 
             tagMatchRules: tagMatchRules) {
-              checkout scm
               container('kubectl') {
                 sh "kubectl apply -f front-end.yml"
                 sh "kubectl apply -f catalog-service.yml"
