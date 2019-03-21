@@ -70,7 +70,7 @@ pipeline {
       steps {
         container('kubectl') {
           sleep 20
-          sh "kubectl get pods -n production"
+          sh "kubectl get pods -n staging"
         }
         container('curl') {
           echo "Waiting for the service to start..."
