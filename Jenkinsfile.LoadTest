@@ -18,7 +18,6 @@ pipeline {
     }
     stage('Run e2e load test') {
       steps {
-        {
           // calls script imported into Jenkins from this library
           // https://github.com/dynatrace-innovationlab/jenkins-extensions
           container('jmeter') {
