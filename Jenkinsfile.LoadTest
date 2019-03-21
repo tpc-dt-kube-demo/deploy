@@ -20,7 +20,7 @@ pipeline {
     }
     stage('Run e2e load test') {
       environment {
-        tagMatchRules = "[[ meTypes: [[meType: 'SERVICE']],tags : [[ context: 'CONTEXTLESS', key: 'environment', value: '${params.namespace}' ]]]]"
+        tagMatchRules = [[ meTypes: [[meType: 'SERVICE']],tags : [[ context: 'CONTEXTLESS', key: 'environment', value: '${params.namespace}' ]]]]
       }
       steps {
         // push custom info event with context information using Jenkins plugin
@@ -28,7 +28,7 @@ pipeline {
         recordDynatraceSession (
           envId: 'Dynatrace Tenant',
           testCase: 'loadtest',
-          tagMatchRules: '${env.tagMatchRules}'
+          tagMatchRules: ${env.tagMatchRules}
         )
         {
             // calls script imported into Jenkins from this library
