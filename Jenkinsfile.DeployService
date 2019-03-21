@@ -15,18 +15,20 @@ pipeline {
     stage("deploy") { 
       environment {
         image = "${params.registry}/${params.service}:${params.version}"
-        if ( params.service == "front-end") {
-          kube_service = "front-end"
-        }
-        else {
-          kube_service = sh(
-            script: "echo ${params.service} | cut -d'-' -f1)",
-            returnStdout: true
-          ).trim()
+        kubeservice = ""
         }
       }
       steps {
         container('kubectl') {
+          script {
+            if ( ${params.service} == "front-end" ) {
+              kubeservice = "front-end"
+            }
+            else {
+              kubeservice = sh( params.service | cut -d'-' -f1 )
+            }
+          }
+          echo 
           echo "============================================="
           echo "Deployment configuration"
           echo "namespace     : ${params.namespace}"
@@ -34,6 +36,7 @@ pipeline {
           echo "version       : ${params.version}"
           echo "registry      : ${params.registry}"
           echo "image         : ${env.image}"
+          echo "kubeservice         : ${env.kubeservice}"
           echo "============================================="
           checkout scm
           
@@ -63,17 +66,17 @@ pipeline {
           sleep 10
 
           echo "get my pod details"
-          sh "kubectl get pods -l app=${env.kube_service} -n ${params.namespace}"
+          sh "kubectl get pods -l app=${env.kubeservice} -n ${params.namespace}"
         }
 
         container('curl') {
           script {
             echo "execute a couple of CURL commands"
             if ( params.service == "front-end") {
-              executeCurl(2, "http://${env.kube_service}.${params.namespace}:80")
+              executeCurl(2, "http://${env.kubeservice}.${params.namespace}:80")
             }
             else {
-              executeCurl(2, "http://${env.kube_service}.${params.namespace}:8080")
+              executeCurl(2, "http://${env.kubeservice}.${params.namespace}:8080")
             }
           }
         }
