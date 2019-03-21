@@ -34,7 +34,6 @@ pipeline {
         script {
           echo "============================================="
           echo "Deployment configuration"
-          echo "version                : ${params.version}"
           echo "registry               : ${params.registry}"
           echo "frontendimage          : ${env.frontendimage}"
           echo "orderserviceimage      : ${env.orderserviceimage}"
