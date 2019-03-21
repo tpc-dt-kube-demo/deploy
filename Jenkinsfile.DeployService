@@ -15,19 +15,11 @@ pipeline {
     stage("deploy") { 
       environment {
         image = "${params.registry}/${params.service}:${params.version}"
-        service = "${params.service}"
-        kubeservice = ""
+        kubeservice = sh(script: "echo ${service} | cut -d'-' -f1" , returnStdout: true).trim()
       }
       steps {
         container('kubectl') {
-          script {
-            if ( params.service == "front-end" ) {
-              kubeservice = "front-end"
-            }
-            else {
-              kubeservice = sh(script: "echo ${service} | cut -d'-' -f1" , returnStdout: true).trim()
-            }
-          }
+
           echo "============================================="
           echo "Deployment configuration"
           echo "namespace     : ${params.namespace}"
