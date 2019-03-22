@@ -128,7 +128,7 @@ pipeline {
                 checkPath: '/',
                 vuCount: 10,
                 loopCount: 10,
-                LTN: "e2eCheck_${env.BUILD_ID}",
+                LTN: "staging_e2eCheck_${env.BUILD_ID}",
                 funcValidation: false,
                 avgRtValidation: 4000
               )

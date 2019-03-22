@@ -36,7 +36,7 @@ pipeline {
               checkPath: '/',
               vuCount: 10,
               loopCount: 10000,
-              LTN: "e2eCheck_${env.BUILD_ID}",
+              LTN: "${params.namespace}_loadtest_${env.BUILD_ID}",
               funcValidation: false,
               avgRtValidation: 4000
             )
