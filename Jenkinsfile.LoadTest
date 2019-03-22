@@ -34,7 +34,7 @@ pipeline {
               serverUrl: "front-end.${params.namespace}", 
               serverPort: 80,
               checkPath: '/',
-              vuCount: 5,
+              vuCount: 10,
               loopCount: 10000,
               LTN: "e2eCheck_${env.BUILD_ID}",
               funcValidation: false,
