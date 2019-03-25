@@ -139,6 +139,11 @@ pipeline {
             }
           }
         }
+      }
+    }
+
+    stage('quality gate') {
+      steps {
 
         // evaluate monspec file as a quality gate using Jenkins plugin
         // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
