@@ -15,6 +15,13 @@
             "upperWarning" : 1.0
         },
         {
+            "timeseriesId" : "com.dynatrace.builtin:service.failurerate",
+            "aggregation" : "avg",
+            "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:order",
+            "upperSevere" : 5.0,
+            "upperWarning" : 1.0
+        },
+        {
             "timeseriesId" : "com.dynatrace.builtin:service.requests",
             "aggregation" : "count",
             "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:catalog",
