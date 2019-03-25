@@ -3,21 +3,21 @@
         {
             "timeseriesId" : "com.dynatrace.builtin:service.responsetime",
             "aggregation" : "avg",
-            "tags" : "environment:staging",
-            "upperSevere" : 800.0,
-            "upperWarning" : 600.0
+            "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:customer",
+            "upperSevere" : 10.0,
+            "upperWarning" : 5.0
         },
         {
             "timeseriesId" : "com.dynatrace.builtin:service.failurerate",
             "aggregation" : "avg",
-            "tags" : "environment:staging",
+            "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:customer",
             "upperSevere" : 5.0,
             "upperWarning" : 1.0
         },
         {
             "timeseriesId" : "com.dynatrace.builtin:service.requests",
             "aggregation" : "count",
-            "tags" : "environment:staging",
+            "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:customer",
             "upperSevere" : 800.0,
             "lowerSevere" : 0.0
         }

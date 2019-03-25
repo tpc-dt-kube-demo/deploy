@@ -6,7 +6,7 @@ def tagMatchRules = [
       [meType: 'SERVICE']
     ],
     tags : [
-      [ context: 'CONTEXTLESS', key: 'environment', value: 'staging' ]
+      [ context: 'CONTEXTLESS', key: 'dt-kube-demo-environment', value: 'staging' ]
     ]
   ]
 ]
