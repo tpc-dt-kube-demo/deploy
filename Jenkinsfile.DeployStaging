@@ -127,7 +127,7 @@ pipeline {
                 serverPort: 80,
                 checkPath: '/',
                 vuCount: 10,
-                loopCount: 10,
+                loopCount: 9,
                 LTN: "staging_e2eCheck_${env.BUILD_ID}",
                 funcValidation: false,
                 avgRtValidation: 4000
