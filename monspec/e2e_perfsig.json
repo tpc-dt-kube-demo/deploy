@@ -8,24 +8,17 @@
             "upperWarning" : 100
         },
         {
-            "timeseriesId" : "com.dynatrace.builtin:service.failurerate",
-            "aggregation" : "avg",
-            "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:catalog",
-            "upperSevere" : 25,
-            "upperWarning" : 10
-        },
-        {
             "timeseriesId": "com.dynatrace.builtin:host.mem.used",
             "aggregation": "avg",
-            "upperWarning": 3000,
-            "upperSevere": 4000
+            "upperWarning": 4000,
+            "upperSevere": 5000
         },
         {
             "timeseriesId" : "com.dynatrace.builtin:service.failurerate",
             "aggregation" : "avg",
             "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:order",
-            "upperSevere" : 5,
-            "upperWarning" : 1
+            "upperSevere" : 10,
+            "upperWarning" : 5
         },
         {
             "timeseriesId" : "com.dynatrace.builtin:service.requestspermin",
