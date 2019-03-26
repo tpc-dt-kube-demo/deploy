@@ -24,7 +24,7 @@
            "timeseriesId" : "com.dynatrace.builtin:service.requests",
            "aggregation" : "count",
            "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:customer",
-           "upperSevere" : 800,
+           "upperSevere" : 10000,
            "lowerSevere" : 0
        }
     ]
