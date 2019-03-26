@@ -21,13 +21,6 @@
             "upperWarning" : 5
         },
         {
-            "timeseriesId" : "com.dynatrace.builtin:service.requestspermin",
-            "aggregation" : "min",
-            "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:catalog",
-            "upperSevere" : 5,
-            "lowerSevere" : 2
-        },
-        {
            "timeseriesId" : "com.dynatrace.builtin:service.requests",
            "aggregation" : "count",
            "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:customer",
