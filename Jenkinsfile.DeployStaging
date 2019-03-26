@@ -74,7 +74,7 @@ pipeline {
         }
         container('curl') {
           echo "Waiting for the service to start..."
-          sleep 20
+          sleep 40
           echo "Execute a couple of CURL commands to verify UI is up..."
           executeCurl(2, "http://front-end.staging")
         }
