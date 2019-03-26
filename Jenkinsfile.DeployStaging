@@ -91,7 +91,9 @@ pipeline {
           // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
           createDynatraceDeploymentEvent(
             envId: 'Dynatrace Tenant', 
-            tagMatchRules: tagMatchRules) {
+            tagMatchRules: tagMatchRules,
+            customProperties: [[key: 'frontendversion', value: "${params.frontendversion}"],[key: 'orderversion', value: "${params.orderserviceversion}"],[key: 'customerversion', value: "${params.customerserviceversion}"],[key: 'catalogversion', value: "${params.catalogserviceversion}"]]
+          ) {
               // do nothing. Need to do this after the wait as to have service up 
             }
         }
