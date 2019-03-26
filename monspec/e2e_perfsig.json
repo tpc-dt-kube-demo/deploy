@@ -10,7 +10,7 @@
         {
             "timeseriesId": "com.dynatrace.builtin:host.mem.used",
             "aggregation": "avg",
-            "upperWarning": 5000,
+            "upperWarning": 6000,
             "upperSevere": 8000
         },
         {
@@ -26,6 +26,13 @@
             "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:catalog",
             "upperSevere" : 5,
             "lowerSevere" : 2
-        }
+        },
+        {
+           "timeseriesId" : "com.dynatrace.builtin:service.requests",
+           "aggregation" : "count",
+           "tags" : "environment:staging",
+           "upperSevere" : 800,
+           "lowerSevere" : 0
+       }
     ]
 }
