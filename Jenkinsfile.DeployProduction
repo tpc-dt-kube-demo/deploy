@@ -93,7 +93,7 @@ pipeline {
           createDynatraceDeploymentEvent(
             envId: 'Dynatrace Tenant', 
             tagMatchRules: tagMatchRules,
-            customProperties: [[key: 'frontendversion', value: "${params.frontendimage}"],[key: 'orderversion', value: "${params.orderserviceimage}"],[key: 'customerversion', value: "${params.customerserviceimage}"],[key: 'catalogversion', value: "${params.catalogserviceimage}"]]
+            customProperties: [[key: 'frontendversion', value: "${params.frontendversion}"],[key: 'orderversion', value: "${params.orderserviceversion}"],[key: 'customerversion', value: "${params.customerserviceversion}"],[key: 'catalogversion', value: "${params.catalogserviceversion}"]]
            ) {
               // do nothing. Need to do this after the wait as to have service up 
             }
