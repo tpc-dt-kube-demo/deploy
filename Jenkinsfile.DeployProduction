@@ -88,10 +88,13 @@ pipeline {
           sleep 20
 
           // push event using Jenkins plugin
+          env.dtDeploymentProject = "dt-kube-demo"
           // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
           createDynatraceDeploymentEvent(
             envId: 'Dynatrace Tenant', 
-            tagMatchRules: tagMatchRules) {
+            tagMatchRules: tagMatchRules,
+            customProperties: [[key: 'frontendversion', value: "${env.frontendimage}"],[key: 'orderversion', value: "${env.orderserviceimage}"],[key: 'customerversion', value: "${env.customerserviceimage}"],[key: 'catalogversion', value: "${env.catalogserviceimage}"]]
+           ) {
               // do nothing. Need to do this after the wait as to have service up 
             }
         }
