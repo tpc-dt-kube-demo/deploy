@@ -10,8 +10,9 @@
         {
             "timeseriesId": "com.dynatrace.builtin:host.mem.used",
             "aggregation": "avg",
-            "upperWarning": 7000,
-            "upperSevere": 8000
+            "tags" : "Environment:aws-eks",
+            "upperWarning": 3221225472,
+            "upperSevere": 3758096384
         },
         {
             "timeseriesId" : "com.dynatrace.builtin:service.failurerate",
