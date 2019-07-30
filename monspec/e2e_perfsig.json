@@ -2,7 +2,7 @@
     "timeseries" : [
         {
             "timeseriesId" : "com.dynatrace.builtin:service.responsetime",
-            "aggregation" : "max",
+            "aggregation" : "avg",
             "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:customer",
             "upperSevere" : 4500,
             "upperWarning" : 3000
