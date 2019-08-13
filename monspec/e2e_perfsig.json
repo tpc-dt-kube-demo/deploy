@@ -4,8 +4,8 @@
             "timeseriesId" : "com.dynatrace.builtin:service.responsetime",
             "aggregation" : "avg",
             "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:customer",
-            "upperSevere" : 4500,
-            "upperWarning" : 3000
+            "upperSevere" : 10000,
+            "upperWarning" : 9000
         },
         {
             "timeseriesId" : "com.dynatrace.builtin:pgi.cpu.usage",
@@ -24,7 +24,7 @@
         {
            "timeseriesId" : "com.dynatrace.builtin:service.requests",
            "aggregation" : "count",
-           "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:customer",
+           "tags" : "dt-kube-demo-environment:staging",
            "upperSevere" : 10000,
            "lowerSevere" : 0
        }
