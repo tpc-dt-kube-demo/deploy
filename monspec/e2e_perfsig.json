@@ -4,8 +4,8 @@
             "timeseriesId" : "com.dynatrace.builtin:service.responsetime",
             "aggregation" : "avg",
             "tags" : "dt-kube-demo-environment:staging",
-            "upperSevere" : 2,
-            "upperWarning" : 1
+            "upperLimit" : 100,
+            "lowerLimit" : 50
         },
         {
             "timeseriesId" : "com.dynatrace.builtin:pgi.cpu.usage",
