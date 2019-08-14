@@ -10,23 +10,37 @@
         {
             "timeseriesId" : "com.dynatrace.builtin:pgi.cpu.usage",
             "aggregation" : "avg",
-            "tags" : "dt-kube-demo-environment:staging,container-name:customer",
-            "upperWarning" : 25,
-            "upperSevere" : 50
+            "tags" : "dt-kube-demo-environment:staging",
+            "upperLimit" : 50,
+            "lowerLimit" : 25
         },
         {
             "timeseriesId" : "com.dynatrace.builtin:service.failurerate",
             "aggregation" : "avg",
-            "tags" : "dt-kube-demo-environment:staging,dt-kube-demo-service:order",
-            "upperSevere" : 10,
-            "upperWarning" : 5
+            "tags" : "dt-kube-demo-environment:staging",
+            "upperLimit" : 5,
+            "lowerLimit" : 1
+        },
+        {
+            "timeseriesId" : "com.dynatrace.builtin:host.cpu.user",
+            "aggregation" : "max",
+            "tags" : "Environment:aws-eks",
+            "upperLimit" : 90,
+            "lowerLimit" : 75
+        },
+        {
+            "timeseriesId" : "com.dynatrace.builtin:host.mem.availablepercentage",
+            "aggregation" : "min",
+            "tags" : "Environment:aws-eks",
+            "lowerLimit" : 10,
+            "upperLimit" : 3
         },
         {
            "timeseriesId" : "com.dynatrace.builtin:service.requests",
            "aggregation" : "count",
            "tags" : "dt-kube-demo-environment:staging",
-           "upperSevere" : 10000,
-           "lowerSevere" : 0
+           "lowerLimit" : 1000,
+           "upperLimit" : 10
        }
     ]
 }
