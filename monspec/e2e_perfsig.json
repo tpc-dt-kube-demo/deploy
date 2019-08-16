@@ -4,8 +4,8 @@
             "timeseriesId" : "com.dynatrace.builtin:service.responsetime",
             "aggregation" : "avg",
             "tags" : "dt-kube-demo-environment:staging",
-            "upperLimit" : 100,
-            "lowerLimit" : 50
+            "upperLimit" : 200,
+            "lowerLimit" : 150
         },
         {
             "timeseriesId" : "com.dynatrace.builtin:pgi.cpu.usage",
@@ -18,8 +18,8 @@
             "timeseriesId" : "com.dynatrace.builtin:service.failurerate",
             "aggregation" : "avg",
             "tags" : "dt-kube-demo-environment:staging",
-            "upperLimit" : 5,
-            "lowerLimit" : 1
+            "upperLimit" : 10,
+            "lowerLimit" : 5
         },
         {
             "timeseriesId" : "com.dynatrace.builtin:host.cpu.user",
