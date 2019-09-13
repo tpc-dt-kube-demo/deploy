@@ -151,7 +151,7 @@ pipeline {
         // https://github.com/jenkinsci/performance-signature-dynatrace-plugin/blob/master/dynatrace/README.md
         perfSigDynatraceReports(
           envId: 'Dynatrace Tenant', 
-          nonFunctionalFailure: 1, 
+          nonFunctionalFailure: 2, 
           specFile: "monspec/e2e_perfsig.json"
         )
       }
