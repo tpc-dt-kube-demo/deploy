@@ -24,14 +24,14 @@
         {
             "timeseriesId" : "com.dynatrace.builtin:host.cpu.user",
             "aggregation" : "max",
-            "tags" : "Environment:aws-eks",
+            "tags" : "app_env:tpc-demo-eks",
             "upperLimit" : 90,
             "lowerLimit" : 75
         },
         {
             "timeseriesId" : "com.dynatrace.builtin:host.mem.availablepercentage",
             "aggregation" : "min",
-            "tags" : "Environment:aws-eks",
+            "tags" : "app_env:tpc-demo-eks",
             "lowerLimit" : 10,
             "upperLimit" : 3
         },
