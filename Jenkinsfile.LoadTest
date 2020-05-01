@@ -34,7 +34,7 @@ pipeline {
               serverUrl: "front-end.${params.namespace}", 
               serverPort: 80,
               checkPath: '/',
-              vuCount: 5,
+              vuCount: 1,
               loopCount: 10000,
               LTN: "${params.namespace}_loadtest_${env.BUILD_ID}",
               funcValidation: false,
