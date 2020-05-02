@@ -23,6 +23,17 @@ pipeline {
     string(name: 'registry',               defaultValue: 'robjahn', description: 'Dockerhub account with Docker Images')        
   }
   stages {
+    
+    stage('Maintenance Window') {
+      steps {
+        container('curl') {
+          echo "Creating Dynatrace maintenance window via REST API"
+          sleep 10
+          executeCurl(1, "https://hfn13693.live.dynatrace.com/")
+        }
+      }
+    }
+    
     stage('Deploy') {
       environment {
         frontendimage = "${params.registry}/front-end:${params.frontendversion}"
