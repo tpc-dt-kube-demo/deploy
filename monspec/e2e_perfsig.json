@@ -4,8 +4,8 @@
             "timeseriesId" : "com.dynatrace.builtin:service.responsetime",
             "aggregation" : "avg",
             "tags" : "dt-kube-demo-environment:staging",
-            "upperLimit" : 500,
-            "lowerLimit" : 300
+            "upperLimit" : 800,
+            "lowerLimit" : 400
         },
         {
             "timeseriesId" : "com.dynatrace.builtin:service.failurerate",
